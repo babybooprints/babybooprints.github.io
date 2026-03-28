@@ -644,6 +644,15 @@ function showResult() {
   const winner = Object.entries(tally).sort((a,b) => b[1]-a[1])[0][0];
   const arch = archetypes[winner];
 
+  // Map archetype to MailerLite Group ID
+  const groupMap = {
+    avoider: '183188932425418639',
+    emotional: '183188950610871582',
+    procrastinator: '183188967086098228',
+    unaware: '183188976304129648'
+  };
+  window._quizGroupId = groupMap[winner];
+
   document.getElementById('resultTitle').textContent = arch.title;
   document.getElementById('resultSubtitle').textContent = arch.subtitle;
   document.getElementById('resultInsight').textContent = arch.insight;
