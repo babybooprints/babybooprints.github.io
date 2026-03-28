@@ -429,6 +429,15 @@
     .email-btn { width: 100%; text-align: center; }
   }
 </style>
+<!-- MailerLite Universal -->
+<script>
+    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+    ml('account', '2228032');
+</script>
+<!-- End MailerLite Universal -->
 </head>
 <body>
 
@@ -474,16 +483,7 @@
       <div class="what-next">What to do next</div>
       <div class="email-block">
         <p>Get your personalized <strong>Money Repair Plan</strong> — a free guide tailored to your saboteur type, straight to your inbox.</p>
-        <div class="email-row">
-          <input class="email-input" type="email" id="emailInput" placeholder="your@email.com" />
-          <button class="email-btn" onclick="submitEmail()">Send My Plan</button>
-        </div>
-        <p class="privacy">🔒 No spam. Unsubscribe anytime.</p>
-      </div>
-      <div class="thank-you" id="thankYou">
-        <div class="checkmark">✓</div>
-        <h3>You're all set!</h3>
-        <p>Check your inbox — your Money Repair Plan is on its way.</p>
+        <div class="ml-embedded" data-form="lKPKtm"></div>
       </div>
     </div>
   </div>
