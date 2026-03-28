@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What's Sabotaging Your Finances?</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F9F7F4;
+    --ink: #1A1714;
+    --ink-light: #6B6460;
+    --accent: #C8A97E;
+    --accent-dark: #A8855A;
+    --card: #FFFFFF;
+    --border: #E8E3DC;
+    --success: #4A7C59;
+    --radius: 12px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 80px 24px 60px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    background: #F2EBE0;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 7vw, 58px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent-dark);
+  }
+
+  .hook-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin: 32px 0 40px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hook-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+  }
+
+  .hook-card p {
+    font-size: 16px;
+    color: var(--ink);
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--ink-light);
+    max-width: 480px;
+    margin: 0 auto 40px;
+  }
+
+  .start-btn {
+    display: inline-block;
+    background: var(--ink);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 16px 40px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    text-decoration: none;
+  }
+
+  .start-btn:hover { background: #333; transform: translateY(-1px); }
+
+  .meta {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--ink-light);
+  }
+
+  /* ── QUIZ SECTION ── */
+  .quiz-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    display: none;
+  }
+
+  /* Progress */
+  .progress-bar-wrap {
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 3px;
+    background: var(--border);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 100px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .progress-label {
+    font-size: 13px;
+    color: var(--ink-light);
+    white-space: nowrap;
+  }
+
+  /* Question card */
+  .q-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px 36px;
+    animation: fadeUp 0.4s ease;
+  }
+
+  .q-num {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    margin-bottom: 12px;
+  }
+
+  .q-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(20px, 3.5vw, 26px);
+    line-height: 1.3;
+    margin-bottom: 32px;
+    color: var(--ink);
+  }
+
+  .options { display: flex; flex-direction: column; gap: 12px; }
+
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    background: #fff;
+    text-align: left;
+  }
+
+  .option:hover {
+    border-color: var(--accent);
+    background: #FDF8F2;
+    transform: translateX(3px);
+  }
+
+  .option.selected {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: #fff;
+  }
+
+  .option-letter {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  .option.selected .option-letter {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .option-text { font-size: 15px; line-height: 1.5; padding-top: 2px; }
+
+  .q-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+  }
+
+  .btn-back {
+    background: none;
+    border: 1.5px solid var(--border);
+    color: var(--ink-light);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 12px 24px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-back:hover { border-color: var(--ink); color: var(--ink); }
+  .btn-back:disabled { opacity: 0.3; pointer-events: none; }
+
+  .btn-next {
+    background: var(--ink);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 28px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, opacity 0.2s;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .btn-next.active { opacity: 1; pointer-events: all; }
+  .btn-next.active:hover { background: #333; transform: translateY(-1px); }
+
+  /* ── RESULT SECTION ── */
+  .result-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    display: none;
+  }
+
+  .result-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease;
+  }
+
+  .result-header {
+    background: var(--ink);
+    padding: 36px 36px 32px;
+    color: #fff;
+  }
+
+  .result-tag {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .result-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(26px, 5vw, 36px);
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+
+  .result-subtitle {
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+  }
+
+  .result-body { padding: 36px; }
+
+  .result-insight {
+    font-size: 15px;
+    color: var(--ink-light);
+    line-height: 1.7;
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .what-next {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  /* Email capture */
+  .email-block {
+    background: #F9F7F4;
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+
+  .email-block p {
+    font-size: 14px;
+    color: var(--ink-light);
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+
+  .email-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .email-input {
+    flex: 1;
+    min-width: 200px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    padding: 14px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    background: #fff;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .email-input:focus { border-color: var(--accent); }
+  .email-input::placeholder { color: #B0AAA4; }
+
+  .email-btn {
+    background: var(--accent-dark);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 14px 26px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .email-btn:hover { background: var(--accent); transform: translateY(-1px); }
+
+  .privacy { font-size: 12px; color: var(--ink-light); margin-top: 12px; }
+
+  .thank-you {
+    text-align: center;
+    padding: 24px 0 8px;
+    display: none;
+  }
+
+  .thank-you .checkmark {
+    width: 48px; height: 48px;
+    background: var(--success);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px;
+    font-size: 22px;
+    color: #fff;
+  }
+
+  .thank-you h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .thank-you p { font-size: 14px; color: var(--ink-light); }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .q-card { padding: 28px 20px; }
+    .result-header { padding: 28px 24px; }
+    .result-body { padding: 28px 24px; }
+    .email-row { flex-direction: column; }
+    .email-btn { width: 100%; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="eyebrow">Free 60-second quiz</div>
+  <h1>What's <em>really</em> sabotaging your finances?</h1>
+  <div class="hook-card">
+    <p>"You promised yourself you'd save this month… but here you are again — checking your balance with anxiety."</p>
+  </div>
+  <p class="hero-sub">Answer 5 quick questions and find out exactly what's keeping you broke — and what to do about it.</p>
+  <button class="start-btn" onclick="startQuiz()">Find My Money Saboteur →</button>
+  <p class="meta">Takes 60 seconds · No sign-up to start</p>
+</section>
+
+<!-- QUIZ -->
+<div class="quiz-wrap" id="quizWrap">
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-label" id="progressLabel">1 of 5</span>
+  </div>
+  <div class="q-card" id="qCard">
+    <div class="q-num" id="qNum">Question 1</div>
+    <div class="q-text" id="qText"></div>
+    <div class="options" id="optionsList"></div>
+    <div class="q-nav">
+      <button class="btn-back" id="btnBack" onclick="prevQ()" disabled>← Back</button>
+      <button class="btn-next" id="btnNext" onclick="nextQ()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div class="result-wrap" id="resultWrap">
+  <div class="result-card">
+    <div class="result-header">
+      <div class="result-tag">Your Money Saboteur</div>
+      <div class="result-title" id="resultTitle"></div>
+      <div class="result-subtitle" id="resultSubtitle"></div>
+    </div>
+    <div class="result-body">
+      <p class="result-insight" id="resultInsight"></p>
+      <div class="what-next">What to do next</div>
+      <div class="email-block">
+        <p>Get your personalized <strong>Money Repair Plan</strong> — a free guide tailored to your saboteur type, straight to your inbox.</p>
+        <div class="email-row">
+          <input class="email-input" type="email" id="emailInput" placeholder="your@email.com" />
+          <button class="email-btn" onclick="submitEmail()">Send My Plan</button>
+        </div>
+        <p class="privacy">🔒 No spam. Unsubscribe anytime.</p>
+      </div>
+      <div class="thank-you" id="thankYou">
+        <div class="checkmark">✓</div>
+        <h3>You're all set!</h3>
+        <p>Check your inbox — your Money Repair Plan is on its way.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    text: "When you check your bank balance, your first feeling is…",
+    options: [
+      "😬 Anxiety — I'm scared of what I'll see",
+      "😤 Frustration — I worked hard, where did it all go?",
+      "😶 Numbness — I've honestly stopped caring",
+      "😅 Surprise — it's never what I expect"
+    ],
+    scores: ["avoider", "emotional", "procrastinator", "unaware"]
+  },
+  {
+    text: "When you get paid, what usually happens within the first week?",
+    options: [
+      "A big chunk disappears on things I didn't plan for",
+      "I pay bills, then spend whatever's left freely",
+      "I move some to savings… then slowly move it back",
+      "I stick to a budget (but barely)"
+    ],
+    scores: ["unaware", "emotional", "procrastinator", "avoider"]
+  },
+  {
+    text: "Which of these sounds most like you?",
+    options: [
+      "\"I'll start saving next month, for real this time\"",
+      "\"I deserve this — I've been so stressed lately\"",
+      "\"It's only ₱500… it won't even matter\"",
+      "\"I know what I should do, I just don't do it\""
+    ],
+    scores: ["procrastinator", "emotional", "unaware", "avoider"]
+  },
+  {
+    text: "When an unexpected expense hits — emergency, repair, anything — you…",
+    options: [
+      "Panic. There's nothing to pull from",
+      "Put it on a card and figure it out later",
+      "Borrow money from someone",
+      "Dip into savings (if there's any left)"
+    ],
+    scores: ["avoider", "procrastinator", "emotional", "unaware"]
+  },
+  {
+    text: "Deep down, what's the real reason you're not saving?",
+    options: [
+      "I don't earn enough to save anything meaningful",
+      "I know how, but I can't seem to stop spending",
+      "Life keeps throwing things at me before I can",
+      "I never really learned how money works"
+    ],
+    scores: ["avoider", "emotional", "procrastinator", "unaware"]
+  }
+];
+
+const archetypes = {
+  avoider: {
+    title: "The Avoider",
+    subtitle: "You know something's off — but looking feels worse than not looking.",
+    insight: "Your biggest financial block isn't laziness — it's fear. When money feels out of control, avoidance feels safer than facing reality. But the longer you wait, the bigger the gap grows. The good news? Awareness is the hardest step, and you're already here."
+  },
+  emotional: {
+    title: "The Emotional Spender",
+    subtitle: "Stress hits, and your wallet takes the first punch.",
+    insight: "You use spending as emotional regulation — and you're not alone. When life gets heavy, buying something creates a moment of relief. The problem is that relief has a receipt. Understanding your emotional triggers is the real fix — not another budget spreadsheet."
+  },
+  procrastinator: {
+    title: "The Procrastinator",
+    subtitle: "You have the intention. The execution keeps getting postponed.",
+    insight: "You're not bad with money — you're just waiting for the 'right time' that never comes. The month always has one more thing. One more reason to delay. The shift happens when you stop treating saving as optional and make it automatic before you can talk yourself out of it."
+  },
+  unaware: {
+    title: "The Unaware Earner",
+    subtitle: "You earn, you spend — but the math never adds up.",
+    insight: "You weren't taught how money really works, and that's not your fault. Most of us weren't. You're not reckless — you're operating without a map. Once you understand where your money actually goes and why, the whole game changes. Fast."
+  }
+};
+
+let current = 0;
+let answers = [];
+let selected = null;
+
+function startQuiz() {
+  document.getElementById('hero').style.display = 'none';
+  const qw = document.getElementById('quizWrap');
+  qw.style.display = 'block';
+  qw.style.animation = 'fadeUp 0.5s ease';
+  renderQ();
+}
+
+function renderQ() {
+  selected = answers[current] ?? null;
+  const q = questions[current];
+  document.getElementById('qNum').textContent = `Question ${current + 1}`;
+  document.getElementById('qText').textContent = q.text;
+  document.getElementById('progressFill').style.width = `${((current) / questions.length) * 100}%`;
+  document.getElementById('progressLabel').textContent = `${current + 1} of ${questions.length}`;
+
+  const list = document.getElementById('optionsList');
+  list.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option' + (selected === i ? ' selected' : '');
+    div.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-text">${opt}</span>`;
+    div.onclick = () => selectOption(i);
+    list.appendChild(div);
+  });
+
+  document.getElementById('btnBack').disabled = current === 0;
+  updateNextBtn();
+}
+
+function selectOption(i) {
+  selected = i;
+  answers[current] = i;
+  document.querySelectorAll('.option').forEach((el, idx) => {
+    el.classList.toggle('selected', idx === i);
+  });
+  updateNextBtn();
+}
+
+function updateNextBtn() {
+  const btn = document.getElementById('btnNext');
+  const isLast = current === questions.length - 1;
+  btn.textContent = isLast ? 'See My Result →' : 'Continue →';
+  btn.classList.toggle('active', selected !== null);
+}
+
+function nextQ() {
+  if (selected === null) return;
+  if (current < questions.length - 1) {
+    current++;
+    renderQ();
+  } else {
+    showResult();
+  }
+}
+
+function prevQ() {
+  if (current > 0) { current--; renderQ(); }
+}
+
+function showResult() {
+  document.getElementById('quizWrap').style.display = 'none';
+
+  // Tally scores
+  const tally = { avoider: 0, emotional: 0, procrastinator: 0, unaware: 0 };
+  questions.forEach((q, qi) => {
+    const sel = answers[qi];
+    if (sel !== undefined) tally[q.scores[sel]]++;
+  });
+  const winner = Object.entries(tally).sort((a,b) => b[1]-a[1])[0][0];
+  const arch = archetypes[winner];
+
+  document.getElementById('resultTitle').textContent = arch.title;
+  document.getElementById('resultSubtitle').textContent = arch.subtitle;
+  document.getElementById('resultInsight').textContent = arch.insight;
+
+  const rw = document.getElementById('resultWrap');
+  rw.style.display = 'block';
+  rw.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+async function submitEmail() {
+  const val = document.getElementById('emailInput').value.trim();
+  if (!val || !val.includes('@')) {
+    document.getElementById('emailInput').focus();
+    return;
+  }
+
+  const API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiODFmN2UwMGNlMzc5ODMyZGRiZmVlYzA4YzVmZTYzMjcyY2YwNjY1YTk1NGViNzhlY2IyYzQxMTBhN2UwZjkyNmIxYzY0ZjY2MTExNDdiMTAiLCJpYXQiOjE3NzQ2ODAzNTUuNzM1MjIyLCJuYmYiOjE3NzQ2ODAzNTUuNzM1MjI0LCJleHAiOjQ5MzAzNTM5NTUuNzI4NDE5LCJzdWIiOiIyMjQ3OTMyIiwic2NvcGVzIjpbXX0.wh_5_kvVMTrvhsU-KMqh4hcW9rlgaN3YQEq6Zayq5buGlHNX3qGzpM9BCQ6gBZLBggf5WhNViK5B3GT5pgXPvYUesK1N0pR5gHf8p3tyo8RmvtRxGLfLRSMB0ix83F1c05yuJiCX369bx8mzQvY33YId10kFqsGFXgwiL7pMsrZ7fhbJ5bhTIfm2HfDiP4gWA4ryg0Myc6gvfoIBTQSt8nWmJ6oLMKjDEoZiDM7nAC1rvu79Yzftw2cvDEDtn93ewiH6RAteDnLc3ugrbzrneg4S43uA1S48ooaBenSIASpUy1kM5wuztSg9XEt8vCH-zAou4_NV2zdLw7XPzgYT65gX90owHS-8hk4vsZtjKumXOvwwwfqyx_9zIVBEXxOXelINNz56yHcxb6mBezmuFSvD3xCmo5qBT7OrBqq2TCudWwIu2v7zI5eTFP4oOVIEtRoeW-mAaLA_g9amPSDPPd_PVUW4_DAvPzZjifNlqcl2-NsTkfTUAhaFgV6hY6rpMzxVYTIgsf5hB0LqBCTJTy8j1omeVAnTte0WTncXYb7CJvZgpAZAhjzITgzlAE7pyosQgptcfqP-TcZ3Fqc_lBtTOCHQpsWzT1giYZv_l0bvL66daOAR6mvVC1mMW07W5cCL6yTk3y_su5ZlbRl-sT2n229xesUgoj6gcTADtUQ'; // paste your key here
+  const GROUP_ID = '183165221943117225'; // paste your group ID here
+
+  try {
+    await fetch('https://connect.mailerlite.com/api/subscribers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${API_KEY}`
+      },
+      body: JSON.stringify({
+        email: val,
+        groups: [GROUP_ID]
+      })
+    });
+  } catch (e) {
+    console.log('Signup error:', e);
+  }
+
+  // Show thank you regardless
+  document.getElementById('emailInput').parentElement.style.display = 'none';
+  document.querySelector('.privacy').style.display = 'none';
+  document.getElementById('thankYou').style.display = 'block';
+}
+
+
+
+  document.getElementById('emailInput').parentElement.style.display = 'none';
+  document.querySelector('.privacy').style.display = 'none';
+  document.getElementById('thankYou').style.display = 'block';
+  // Hook up to your email provider here
+}
+</script>
+</body>
+</html>
