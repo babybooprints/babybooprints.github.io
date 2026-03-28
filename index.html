@@ -652,36 +652,7 @@ function showResult() {
   rw.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-async function submitEmail() {
-  const val = document.getElementById('emailInput').value.trim();
-  if (!val || !val.includes('@')) {
-    document.getElementById('emailInput').focus();
-    return;
-  }
 
-  const API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiODFmN2UwMGNlMzc5ODMyZGRiZmVlYzA4YzVmZTYzMjcyY2YwNjY1YTk1NGViNzhlY2IyYzQxMTBhN2UwZjkyNmIxYzY0ZjY2MTExNDdiMTAiLCJpYXQiOjE3NzQ2ODAzNTUuNzM1MjIyLCJuYmYiOjE3NzQ2ODAzNTUuNzM1MjI0LCJleHAiOjQ5MzAzNTM5NTUuNzI4NDE5LCJzdWIiOiIyMjQ3OTMyIiwic2NvcGVzIjpbXX0.wh_5_kvVMTrvhsU2KMqh4hcW9rlgaN3YQEq6Zayq5buGlHNX3qGzpM9BCQ6gBZLBggf5WhNViK5B3GT5pgXPvYUesK1N0pR5gHf8p3tyo8RmvtRxGLfLRSMB0ix83F1c05yuJiCX369bx8mzQvY33YId10kFqsGFXgwiL7pMsrZ7fhbJ5bhTIfm2HfDiP4gWA4ryg0Myc6gvfoIBTQSt8nWmJ6oLMKjDEoZiDM7nAC1rvu79Yzftw2cvDEDtn93ewiH6RAteDnLc3ugrbzrneg4S43uA1S48ooaBenSIASpUy1kM5wuztSg9XEt8vCH-zAou4_NV2zdLw7XPzgYT65gX90owHS-8hk4vsZtjKumXOvwwwfqyx_9zIVBEXxOXelINNz56yHcxb6mBezmuFSvD3xCmo5qBT7OrBqq2TCudWwIu2v7zI5eTFP4oOVIEtRoeW-mAaLA_g9amPSDPPd_PVUW4_DAvPzZjifNlqcl2-NsTkfTUAhaFgV6hY6rpMzxVYTIgsf5hB0LqBCTJTy8j1omeVAnTte0WTncXYb7CJvZgpAZAhjzITgzlAE7pyosQgptcfqP-TcZ3Fqc_lBtTOCHQpsWzT1giYZv_l0bvL66daOAR6mvVC1mMW07W5cCL6yTk3y_su5ZlbRl-sT2n229xesUgoj6gcTADtUQ';
-  const GROUP_ID = '183165221943117225';
-
-  try {
-    await fetch('https://connect.mailerlite.com/api/subscribers', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + API_KEY
-      },
-      body: JSON.stringify({
-        email: val,
-        groups: [GROUP_ID]
-      })
-    });
-  } catch (e) {
-    console.log('Signup error:', e);
-  }
-
-  document.getElementById('emailInput').parentElement.style.display = 'none';
-  document.querySelector('.privacy').style.display = 'none';
-  document.getElementById('thankYou').style.display = 'block';
-}
 </script>
 </body>
 </html>
