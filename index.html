@@ -609,6 +609,15 @@ function selectOption(i) {
     el.classList.toggle('selected', idx === i);
   });
   updateNextBtn();
+  // Auto-advance after short delay so user sees their selection
+  setTimeout(function() {
+    if (current < questions.length - 1) {
+      current++;
+      renderQ();
+    } else {
+      showResult();
+    }
+  }, 500);
 }
 
 function updateNextBtn() {
